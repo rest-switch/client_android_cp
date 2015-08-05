@@ -1,0 +1,166 @@
+<!--
+  -
+  - Copyright 2015 The REST Switch Authors
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -     http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its 
+  - Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, 
+  - without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR 
+  - PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any 
+  - risks associated with Your exercise of permissions under this License.
+  -
+  - Author: John Clark (johnc@restswitch.com)
+  -
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc243030"
+    android:onClick="onExitClick">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="20dip"
+        android:paddingBottom="20dip"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dip">
+
+        <Button
+            android:id="@+id/buttona1"
+            style="@style/BigClickButton"
+            android:background="@drawable/btn_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button1"
+            android:tag="11"
+            android:onClick="onButtonClick" />
+
+        <Button
+            android:id="@+id/buttona2"
+            style="@style/BigClickButton"
+            android:background="@drawable/btn_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button2"
+            android:tag="12"
+            android:onClick="onButtonClick" />
+
+        <Button
+            android:id="@+id/buttona3"
+            style="@style/BigClickButton"
+            android:background="@drawable/btn_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button3"
+            android:tag="13"
+            android:onClick="onButtonClick" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="20dip"
+        android:paddingBottom="20dip"
+        android:id="@+id/linearLayout2"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/buttonb1"
+            style="@style/BigClickButton"
+            android:background="@drawable/btn_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button1"
+            android:tag="21"
+            android:onClick="onButtonClick" />
+
+        <Button
+            android:id="@+id/buttonb2"
+            style="@style/BigClickButton"
+            android:background="@drawable/btn_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button2"
+            android:tag="22"
+            android:onClick="onButtonClick" />
+
+        <Button
+            android:id="@+id/buttonb3"
+            style="@style/BigClickButton"
+            android:background="@drawable/btn_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button3"
+            android:tag="23"
+            android:onClick="onButtonClick" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="20dip"
+        android:paddingBottom="20dip"
+        android:id="@+id/linearLayout3"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentStart="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ProgressBar
+                style="@style/CustomProgressBarHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:max="100"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:minHeight="18dip" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBarText"
+                android:background="#00000000"
+                android:textColor="#ffffffff"
+                android:singleLine="true"
+                android:gravity="center"
+                android:textSize="10dip"
+                android:layout_marginTop="2dip"
+                android:layout_marginLeft="16dip" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/secondaryProgressBarText"
+                android:background="#00000000"
+                android:textColor="#ffffffff"
+                android:singleLine="true"
+                android:gravity="center"
+                android:textSize="10dip"
+                android:layout_marginTop="2dip" />
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>
