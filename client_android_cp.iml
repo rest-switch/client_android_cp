@@ -9,16 +9,17 @@
   -
   -     http://www.apache.org/licenses/LICENSE-2.0
   -
-  - Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its
-  - Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including,
-  - without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR
-  - PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any
+  - Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its 
+  - Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, 
+  - without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR 
+  - PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any 
   - risks associated with Your exercise of permissions under this License.
   -
   - Author: John Clark (johnc@restswitch.com)
   -
   -->
-  <module external.linked.project.id="client_android_cp" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+
+<module external.linked.project.id="client_android_cp" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="java-gradle" name="Java-Gradle">
       <configuration>
@@ -32,7 +33,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
     </content>
-    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
