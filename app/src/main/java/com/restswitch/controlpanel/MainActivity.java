@@ -293,7 +293,6 @@ public class MainActivity extends ActionBarActivity implements AjaxTask.AjaxEven
 
     // trust our root ca
     private static final String rootCa =
-        "-----BEGIN CERTIFICATE-----" +
         "MIIGejCCBGKgAwIBAgIJAO52mPzbSfbhMA0GCSqGSIb3DQEBCwUAMIGEMQswCQYD" +
         "VQQGEwJVUzEUMBIGA1UEChMLUkVTVCBTd2l0Y2gxIjAgBgNVBAsTGVJFU1QgU3dp" +
         "dGNoIFRydXN0IE5ldHdvcmsxOzA5BgNVBAMTMlJFU1QgU3dpdGNoIENsYXNzIDMg" +
@@ -328,6 +327,5 @@ public class MainActivity extends ActionBarActivity implements AjaxTask.AjaxEven
         "W84RlBsSJC6lZqOPzDaUkphOX3/GVphE8MW7ipriy0sO3222G9xwaQfjXAp0QELc" +
         "Cz8gn4vVY8kr45CIOEKYQgaflNg88VAjKpe5VoytwKvySq9z01ZTAp58I6UVpt79" +
         "I+nddOOyfknArncc8KxddRk5GLnzB7pB8A6I2AEIGQ0p45rhgvJtvnn27J3fSPE0" +
-        "wbY4maGJQNfCWIwdDTJ/Zn3zRqgpd7dUdiwG1bX0" +
-        "-----END CERTIFICATE-----";
+        "wbY4maGJQNfCWIwdDTJ/Zn3zRqgpd7dUdiwG1bX0";
 }
