@@ -40,7 +40,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
 
-
 ////////////////////////////////////////
 public class AjaxTask extends AsyncTask<Void, Void, AjaxTask.Data> {
     public static class Data {
@@ -95,7 +94,7 @@ public class AjaxTask extends AsyncTask<Void, Void, AjaxTask.Data> {
             HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() { public boolean verify(String hostname, SSLSession session) {return true;} });
 
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-            X509Certificate cert = (X509Certificate) certificateFactory.generateCertificate(new ByteArrayInputStream(Base64.decode(caCert, Base64.DEFAULT)));
+            X509Certificate cert = (X509Certificate) certificateFactory.generateCertificate(new ByteArrayInputStream(Base64.decode(caCert.replaceAll("-----BEGIN CERTIFICATE-----", "").replaceAll("-----END CERTIFICATE-----", ""), Base64.DEFAULT)));
             String alias = cert.getSubjectX500Principal().getName();
             Log.v(trace_topic, alias);
 
