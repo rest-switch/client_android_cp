@@ -52,17 +52,20 @@ public class AjaxTask extends AsyncTask<Void, Void, AjaxTask.Data> {
         void ajaxTaskComplete(AjaxTask.Data data);
     }
 
-    private static final String trace_topic = "HomeAutomation";
+    private static final String trace_topic = "RestSwitch";
     private static final String CHARSET_UTF8 = "UTF-8";
+    private static final int CONNECT_TIMEOUT_MS = 1000;
+    private static final int READ_TIMEOUT_MS = 1500;
 
     // method: PUT
     // uri:    /pub/ah3avupwn
     // body:   [pulseRelay,2,250]
     // auth1:  ajxugyenm
     // auth2:  biwBxCrFhhMMBRlGCQ4ZJSZKDT2DPJCj7kHW4EWdSCM
-    public String method = null;
+    public String protocol = null;
     public String host = null;
     public String uri = null;
+    public String method = null;
     public String body = null;
     public Properties headers = null;
     public AjaxTask.Data data = null;
@@ -76,10 +79,11 @@ public class AjaxTask extends AsyncTask<Void, Void, AjaxTask.Data> {
 
 
     ////////////////////////////////////////
-    public void invoke(String method, String host, String uri, Properties headers, String body, AjaxTask.Data data) {
-        this.method = method;
+    public void invoke(String protocol, String host, String uri, String method, Properties headers, String body, AjaxTask.Data data) {
+        this.protocol = protocol;
         this.host = host;
         this.uri = uri;
+        this.method = method;
         this.headers = headers;
         this.body = body;
         this.data = data;
@@ -88,10 +92,15 @@ public class AjaxTask extends AsyncTask<Void, Void, AjaxTask.Data> {
 
 
     ////////////////////////////////////////
-    public boolean putRootCaCert(String caCert) {
+    public boolean putRootCaCert(String caCert, boolean allowInvalidHost) {
         try {
-            // todo: remove this
-            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() { public boolean verify(String hostname, SSLSession session) {return true;} });
+            if(allowInvalidHost) {
+                HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                });
+            }
 
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
             X509Certificate cert = (X509Certificate) certificateFactory.generateCertificate(new ByteArrayInputStream(Base64.decode(caCert.replaceAll("-----BEGIN CERTIFICATE-----", "").replaceAll("-----END CERTIFICATE-----", ""), Base64.DEFAULT)));
@@ -113,6 +122,7 @@ public class AjaxTask extends AsyncTask<Void, Void, AjaxTask.Data> {
 
             return(true);
         } catch(Exception ex) {
+            Log.e(trace_topic, ex.toString());
             return(false);
         }
     }
@@ -121,13 +131,13 @@ public class AjaxTask extends AsyncTask<Void, Void, AjaxTask.Data> {
     ////////////////////////////////////////
     @Override
     protected AjaxTask.Data doInBackground(Void... arg0) {
-
         try {
-            URL url = new URL("https://"+ host + uri);
+            URL url = new URL(protocol + "://" + host + uri);
+Log.e(trace_topic, "**********************" + url.toExternalForm());
             HttpURLConnection httpConn = (HttpURLConnection)url.openConnection();
             httpConn.setUseCaches(false);
-            httpConn.setConnectTimeout(1000);
-            httpConn.setReadTimeout(1000);
+            httpConn.setConnectTimeout(CONNECT_TIMEOUT_MS);
+            httpConn.setReadTimeout(READ_TIMEOUT_MS);
             httpConn.setRequestMethod(method);
             httpConn.setRequestProperty("content-type", "application/json; charset=utf-8");
             httpConn.setRequestProperty("accept", "application/json");

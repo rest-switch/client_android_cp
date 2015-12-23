@@ -139,15 +139,16 @@ public class MainActivity extends ActionBarActivity implements AjaxTask.AjaxEven
 
             AjaxTask ajaxTask = new AjaxTask();
             ajaxTask.putAjaxEventHandler(this);
-            boolean rc = ajaxTask.putRootCaCert(rootCa);
-            if(!rc) {
-                alertError("Failed to initialize network task.");
-                return;
-            }
+//            // use to set a custom ca
+//            boolean rc = ajaxTask.putRootCaCert(rootCa, true);
+//            if(!rc) {
+//                alertError("Failed to initialize network task.");
+//                return;
+//            }
             AjaxTask.Data data = new AjaxTask.Data();
             data.param1 = devid;
             data.param2 = utcStart;
-            ajaxTask.invoke(method, host, uri, headers, msg, data);
+            ajaxTask.invoke("http", host, uri, method, headers, msg, data);
         } catch(Exception ex) {
             alertError(ex.getMessage());
         }
@@ -268,13 +269,12 @@ public class MainActivity extends ActionBarActivity implements AjaxTask.AjaxEven
 
 
     private void alertError(String msg) {
-        new AlertDialog.Builder(this)
-        .setTitle("Error")
-        .setMessage(msg)
-        .setNeutralButton("OK", null)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-//        .setIconAttribute(android.R.attr.alertDialogIcon)
-                .show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error");
+        builder.setMessage(msg);
+        builder.setNeutralButton("OK", null);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.show();
     }
 
     private void alertInfo(String msg) {
@@ -291,43 +291,44 @@ public class MainActivity extends ActionBarActivity implements AjaxTask.AjaxEven
         this.finish();
     }
 
-    // trust our root ca
-    private static final String rootCa =
-        "-----BEGIN CERTIFICATE-----" +
-        "MIIGejCCBGKgAwIBAgIJAO52mPzbSfbhMA0GCSqGSIb3DQEBCwUAMIGEMQswCQYD" +
-        "VQQGEwJVUzEUMBIGA1UEChMLUkVTVCBTd2l0Y2gxIjAgBgNVBAsTGVJFU1QgU3dp" +
-        "dGNoIFRydXN0IE5ldHdvcmsxOzA5BgNVBAMTMlJFU1QgU3dpdGNoIENsYXNzIDMg" +
-        "UHVibGljIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTE1MDgwNTE2MDg0OFoX" +
-        "DTI1MDgwNTE2MDg0OFowgYQxCzAJBgNVBAYTAlVTMRQwEgYDVQQKEwtSRVNUIFN3" +
-        "aXRjaDEiMCAGA1UECxMZUkVTVCBTd2l0Y2ggVHJ1c3QgTmV0d29yazE7MDkGA1UE" +
-        "AxMyUkVTVCBTd2l0Y2ggQ2xhc3MgMyBQdWJsaWMgQ2VydGlmaWNhdGlvbiBBdXRo" +
-        "b3JpdHkwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDMIPo9d81W474Z" +
-        "vSS4uPOi+6lXcMWZ3GFX9hEMBBDgpIJ7UPG+avAUFQZHSZhI07Vn0HVhylhQa6js" +
-        "UR7010DT4lSP9kau5iGPmWPoEgdH9BDeb743uZONZQzvnLMhXr3toFKUxqbhz3NA" +
-        "bA+RXhbQcB2aJ1ek1l5+W7QUa1hxYuZgtPlamdvBTHnjyeOslyN22Q4mYPDynzKL" +
-        "kDFKNnBbdqG/GxsK85mASTQ2PCQ9OFhWSaQ+TYx2UzQkzkC1ToXiLRG4nC1h+7lj" +
-        "DuPDuX2bQa83Ix8/RXHsALppNphtzOuYBoF/UfsJXYuKTDiyc5J4/i17ZHccy1T0" +
-        "dfJutEfq74yRpjel/pyR2PTIgk7282c6Sb04HetcEbVZTk8pRnYTsj3jtm2V9Jls" +
-        "ztEnASh9O3dMegNxKCS2DGse4XfrDtQ6nrG2h7+0Qpvov3EvDOK8i/FJOCA4PpNI" +
-        "myZ+OR+qJhVCQM974ubY3ui8r7j+Erbkca5sS0uf1dy9+2OxhbuVr9vg2qrenZbQ" +
-        "nGUPLHPG6xcAM2pwRUpVNKtrrU+bWVf5VWkj3f9JqhjmZdUiaJ/Oa1HWbqFpZn6Q" +
-        "ZI4vz10d7k4fiefNLDtEoEb8kqEjLd+CJiWC2qe0ye1IhUG9xXg89Xx5itq3yeCO" +
-        "SAq1/UoF+gyNDYKiVWQZNcrsAOdqLQIDAQABo4HsMIHpMB0GA1UdDgQWBBQQqGyH" +
-        "Pq4RY1oooNeR48yW52wROTCBuQYDVR0jBIGxMIGugBQQqGyHPq4RY1oooNeR48yW" +
-        "52wROaGBiqSBhzCBhDELMAkGA1UEBhMCVVMxFDASBgNVBAoTC1JFU1QgU3dpdGNo" +
-        "MSIwIAYDVQQLExlSRVNUIFN3aXRjaCBUcnVzdCBOZXR3b3JrMTswOQYDVQQDEzJS" +
-        "RVNUIFN3aXRjaCBDbGFzcyAzIFB1YmxpYyBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0" +
-        "eYIJAO52mPzbSfbhMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggIBABrI" +
-        "oiP8ivzw1FMmqBvKfze6KBTzDd2CB5g9aany12Cdo736QqMBHM4Be+ozSuSyL6Cc" +
-        "l13aLzqCqJTMtn7Ug59N4uf8BJu6rrcyaV79d4MpUHon2WGyGSeYvBIGkxpQgSFE" +
-        "IneKlr4REnG3Hu2f9q3o148LXTzpeQ9WaVQWTO99Ke0WiKk0cdH1i3LTTOl13eL5" +
-        "mSMfbgXnYqfYjDPSy/lithL90zxemMPmj/lsOwMf/cToMyVqBDS/8DoSnt2zoUiZ" +
-        "GhejCZT9ERPzO2cSB0BuqzhL5LILiINzuQFrSwWmiq0ptCYO30+ugunWQKUM/1YZ" +
-        "hfLWo8DrVXNN0Wf91C9LL75kvl1reJCglSkE485HeeeFAC7T7exiPt8zHWhZiLQB" +
-        "E5IeMKNWAfM4gsvCk7c9tVCK8hBjoPiuaCgSYNu33sjTpE9jtAaSwwVj36eFGn3G" +
-        "W84RlBsSJC6lZqOPzDaUkphOX3/GVphE8MW7ipriy0sO3222G9xwaQfjXAp0QELc" +
-        "Cz8gn4vVY8kr45CIOEKYQgaflNg88VAjKpe5VoytwKvySq9z01ZTAp58I6UVpt79" +
-        "I+nddOOyfknArncc8KxddRk5GLnzB7pB8A6I2AEIGQ0p45rhgvJtvnn27J3fSPE0" +
-        "wbY4maGJQNfCWIwdDTJ/Zn3zRqgpd7dUdiwG1bX0" +
-        "-----END CERTIFICATE-----";
+//    // trust our root ca
+//    // see: https://github.com/rest-switch/stuff/blob/master/certs/rootca2code.sh
+//    private static final String rootCa =
+//        "-----BEGIN CERTIFICATE-----" +
+//        "MIIGejCCBGKgAwIBAgIJAO52mPzbSfbhMA0GCSqGSIb3DQEBCwUAMIGEMQswCQYD" +
+//        "VQQGEwJVUzEUMBIGA1UEChMLUkVTVCBTd2l0Y2gxIjAgBgNVBAsTGVJFU1QgU3dp" +
+//        "dGNoIFRydXN0IE5ldHdvcmsxOzA5BgNVBAMTMlJFU1QgU3dpdGNoIENsYXNzIDMg" +
+//        "UHVibGljIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTE1MDgwNTE2MDg0OFoX" +
+//        "DTI1MDgwNTE2MDg0OFowgYQxCzAJBgNVBAYTAlVTMRQwEgYDVQQKEwtSRVNUIFN3" +
+//        "aXRjaDEiMCAGA1UECxMZUkVTVCBTd2l0Y2ggVHJ1c3QgTmV0d29yazE7MDkGA1UE" +
+//        "AxMyUkVTVCBTd2l0Y2ggQ2xhc3MgMyBQdWJsaWMgQ2VydGlmaWNhdGlvbiBBdXRo" +
+//        "b3JpdHkwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDMIPo9d81W474Z" +
+//        "vSS4uPOi+6lXcMWZ3GFX9hEMBBDgpIJ7UPG+avAUFQZHSZhI07Vn0HVhylhQa6js" +
+//        "UR7010DT4lSP9kau5iGPmWPoEgdH9BDeb743uZONZQzvnLMhXr3toFKUxqbhz3NA" +
+//        "bA+RXhbQcB2aJ1ek1l5+W7QUa1hxYuZgtPlamdvBTHnjyeOslyN22Q4mYPDynzKL" +
+//        "kDFKNnBbdqG/GxsK85mASTQ2PCQ9OFhWSaQ+TYx2UzQkzkC1ToXiLRG4nC1h+7lj" +
+//        "DuPDuX2bQa83Ix8/RXHsALppNphtzOuYBoF/UfsJXYuKTDiyc5J4/i17ZHccy1T0" +
+//        "dfJutEfq74yRpjel/pyR2PTIgk7282c6Sb04HetcEbVZTk8pRnYTsj3jtm2V9Jls" +
+//        "ztEnASh9O3dMegNxKCS2DGse4XfrDtQ6nrG2h7+0Qpvov3EvDOK8i/FJOCA4PpNI" +
+//        "myZ+OR+qJhVCQM974ubY3ui8r7j+Erbkca5sS0uf1dy9+2OxhbuVr9vg2qrenZbQ" +
+//        "nGUPLHPG6xcAM2pwRUpVNKtrrU+bWVf5VWkj3f9JqhjmZdUiaJ/Oa1HWbqFpZn6Q" +
+//        "ZI4vz10d7k4fiefNLDtEoEb8kqEjLd+CJiWC2qe0ye1IhUG9xXg89Xx5itq3yeCO" +
+//        "SAq1/UoF+gyNDYKiVWQZNcrsAOdqLQIDAQABo4HsMIHpMB0GA1UdDgQWBBQQqGyH" +
+//        "Pq4RY1oooNeR48yW52wROTCBuQYDVR0jBIGxMIGugBQQqGyHPq4RY1oooNeR48yW" +
+//        "52wROaGBiqSBhzCBhDELMAkGA1UEBhMCVVMxFDASBgNVBAoTC1JFU1QgU3dpdGNo" +
+//        "MSIwIAYDVQQLExlSRVNUIFN3aXRjaCBUcnVzdCBOZXR3b3JrMTswOQYDVQQDEzJS" +
+//        "RVNUIFN3aXRjaCBDbGFzcyAzIFB1YmxpYyBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0" +
+//        "eYIJAO52mPzbSfbhMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggIBABrI" +
+//        "oiP8ivzw1FMmqBvKfze6KBTzDd2CB5g9aany12Cdo736QqMBHM4Be+ozSuSyL6Cc" +
+//        "l13aLzqCqJTMtn7Ug59N4uf8BJu6rrcyaV79d4MpUHon2WGyGSeYvBIGkxpQgSFE" +
+//        "IneKlr4REnG3Hu2f9q3o148LXTzpeQ9WaVQWTO99Ke0WiKk0cdH1i3LTTOl13eL5" +
+//        "mSMfbgXnYqfYjDPSy/lithL90zxemMPmj/lsOwMf/cToMyVqBDS/8DoSnt2zoUiZ" +
+//        "GhejCZT9ERPzO2cSB0BuqzhL5LILiINzuQFrSwWmiq0ptCYO30+ugunWQKUM/1YZ" +
+//        "hfLWo8DrVXNN0Wf91C9LL75kvl1reJCglSkE485HeeeFAC7T7exiPt8zHWhZiLQB" +
+//        "E5IeMKNWAfM4gsvCk7c9tVCK8hBjoPiuaCgSYNu33sjTpE9jtAaSwwVj36eFGn3G" +
+//        "W84RlBsSJC6lZqOPzDaUkphOX3/GVphE8MW7ipriy0sO3222G9xwaQfjXAp0QELc" +
+//        "Cz8gn4vVY8kr45CIOEKYQgaflNg88VAjKpe5VoytwKvySq9z01ZTAp58I6UVpt79" +
+//        "I+nddOOyfknArncc8KxddRk5GLnzB7pB8A6I2AEIGQ0p45rhgvJtvnn27J3fSPE0" +
+//        "wbY4maGJQNfCWIwdDTJ/Zn3zRqgpd7dUdiwG1bX0" +
+//        "-----END CERTIFICATE-----";
 }
